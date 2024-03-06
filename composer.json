@@ -1,12 +1,12 @@
 {
-    "name": "houjit/hou-swoole",
+    "name": "houjit/framework",
     "description": "A simple, lightweight and high-performance PHP coroutine framework.",
     "type": "library",
     "license": "Apache-2.0",
     "keywords": [
         "php",
         "swoole",
-        "coroutine",
+        "framework",
         "houoole"
     ],
     "authors": [
