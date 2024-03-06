@@ -9,7 +9,6 @@
 // | Author: amos <amos@houjit.com>
 // +----------------------------------------------------------------------
 namespace houoole\server;
-
 use houoole\App;
 use houoole\Context;
 use houoole\Listener;
@@ -32,7 +31,8 @@ class Http
         $config = config('servers');
         $httpConfig = $config['http'];
         $this->_config = $httpConfig;
-        if (isset($httpConfig['settings']['only_simple_http'])) {
+        if (isset($httpConfig['settings']['only_simple_http']))
+        {
             $this->_server = new HttpServer($httpConfig['ip'], $httpConfig['port'], $config['mode']);
             $this->_server->on('workerStart', [$this, 'onSimpleWorkerStart']);
             $this->_server->on('receive', [$this, 'onReceive']);

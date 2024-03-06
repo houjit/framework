@@ -9,10 +9,9 @@
 // | Author: amos <amos@houjit.com>
 // +----------------------------------------------------------------------
 namespace houoole\server\protocol\http;
-
 use FastRoute\Dispatcher;
 use RuntimeException;
-use Houoole\Config;
+use houoole\Config;
 use function FastRoute\simpleDispatcher;
 
 class HouRoute
@@ -36,8 +35,10 @@ class HouRoute
 
             self::$config = Config::getInstance()->get('routes', []);
             self::$dispatcher = simpleDispatcher(
-                function (\FastRoute\RouteCollector $routerCollector) {
-                    foreach (self::$config as $routerDefine) {
+                function (\FastRoute\RouteCollector $routerCollector)
+                {
+                    foreach (self::$config as $routerDefine)
+                    {
                         $routerCollector->addRoute($routerDefine[0], $routerDefine[1], $routerDefine[2]);
                     }
                 }
@@ -67,12 +68,14 @@ class HouRoute
                 $handler = $routeInfo[1];
                 $vars = $routeInfo[2];
 
-                if (isset(self::$cache[$handler])) {
+                if (isset(self::$cache[$handler]))
+                {
                     $cache_entity = self::$cache[$handler];
                     return $cache_entity[0]->{$cache_entity[1]}($server, $fd, $vars ?? null);
                 }
 
-                if (is_string($handler)) {
+                if (is_string($handler))
+                {
                     $handlerArr = explode('@', $handler);
                     if (count($handlerArr) != 2) {
                         throw new RuntimeException("Route {$uri} config error, Only @ are supported");
@@ -126,8 +129,9 @@ class HouRoute
         $uri = explode('/', $uri);
 
         if ($uri[0] === '') {
-            $className = '\\app\\controller\\IndexController';
-            if (class_exists($className) && method_exists($className, 'index')) {
+            $className = '\\app\\controller\\Index';
+            if (class_exists($className) && method_exists($className, 'index'))
+            {
                 return (new $className())->index($server, $fd);
             }
 //            throw new RuntimeException('The default route index/index class does not exist', 404);

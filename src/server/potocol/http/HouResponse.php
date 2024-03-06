@@ -15,7 +15,7 @@ class HouResponse
     /**
      * @var string
      */
-    protected static $_version = '1.1';
+    protected static $_version = '3.0.1';
 
     /**
      * @var array

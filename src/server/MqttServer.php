@@ -9,7 +9,6 @@
 // | Author: amos <amos@houjit.com>
 // +----------------------------------------------------------------------
 namespace houoole\server;
-
 use houoole\App;
 use houoole\Listener;
 use houoole\server\protocol\MQTT;

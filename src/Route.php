@@ -118,9 +118,11 @@ class Route
         $uri = trim($uri, '/');
         $uri = explode('/', $uri);
 
-        if ($uri[0] === '') {
-            $className = '\\app\\controller\\IndexController';
-            if (class_exists($className) && method_exists($className, 'index')) {
+        if ($uri[0] === '')
+        {
+            $className = '\\app\\controller\\Index';
+            if (class_exists($className) && method_exists($className, 'index'))
+            {
                 return (new $className())->index($request, $response);
             }
         }

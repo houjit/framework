@@ -9,7 +9,6 @@
 // | Author: amos <amos@houjit.com>
 // +----------------------------------------------------------------------
 namespace houoole\server\protocol;
-
 use RuntimeException;
 use houoole\exception\protocol\MQTTException;
 use Throwable;
