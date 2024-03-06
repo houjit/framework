@@ -9,7 +9,6 @@
 // | Author: amos <amos@houjit.com>
 // +----------------------------------------------------------------------
 namespace houoole;
-
 use Swoole\Coroutine;
 
 class Context
