@@ -1,8 +1,8 @@
 <?php
 // +----------------------------------------------------------------------
-// | Houoole [ WE CAN DO IT JUST THINK ]
+// | Houoole [ 厚匠科技 https://www.houjit.com/ ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006-2014 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006-2024 https://www.houjit.com/hou-swoole All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
