@@ -52,16 +52,16 @@ EOL;
         $command = explode(':', $funcName);
         switch ($command[0]) {
             case 'http':
-                $className = \Houoole\Server\Http::class;
+                $className = \houoole\server\Http::class;
                 break;
             case 'ws':
-                $className = \Houoole\Server\WebSocket::class;
+                $className = \houoole\server\WebSocket::class;
                 break;
             case 'mqtt':
-                $className = \Houoole\Server\MqttServer::class;
+                $className = \houoole\server\MqttServer::class;
                 break;
             case 'main':
-                $className = \Houoole\Server\MainServer::class;
+                $className = \houoole\server\MainServer::class;
                 break;
             default:
                 // 用户自定义server
