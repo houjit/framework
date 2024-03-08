@@ -22,7 +22,8 @@ class App
         $appVersion = self::$version;
         $swooleVersion = SWOOLE_VERSION;
         echo <<<EOL
-https://www.houjit.com/
+
+欢迎使用HouSwoole
 Version: {$appVersion}, Swoole: {$swooleVersion}
 
 EOL;
