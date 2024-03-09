@@ -21,7 +21,6 @@ if (! function_exists('config')) {
         return getInstance('\houoole\Config')->get($name, $default);
     }
 }
-
 if (!function_exists('check_ip_allowed')) {
     /**
      * 检测IP是否允许
@@ -29,13 +28,14 @@ if (!function_exists('check_ip_allowed')) {
      */
     function check_ip_allowed($ip = null)
     {
-        $ip = is_null($ip) ? request()->ip() : $ip;
-        $forbiddenipArr = config('site.forbiddenip');
+        $ips = '127.0.0.1';
+        $ip = is_null($ip) ? $ips : $ip;
+        $forbiddenipArr = ['127.0.0.1','58.39.98.132','47.104.8.8'];
         $forbiddenipArr = !$forbiddenipArr ? [] : $forbiddenipArr;
         $forbiddenipArr = is_array($forbiddenipArr) ? $forbiddenipArr : array_filter(explode("\n", str_replace("\r\n", "\n", $forbiddenipArr)));
-        if ($forbiddenipArr && \Symfony\Component\HttpFoundation\IpUtils::checkIp($ip, $forbiddenipArr)) {
-            $response = Response::create('请求无权访问', 'html', 403);
-            throw new HttpResponseException($response);
+        if ($forbiddenipArr && !in_array($ip,$forbiddenipArr))
+        {
+            return ['请求无权访问', 'html', 403];
         }
     }
 }
