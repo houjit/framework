@@ -12,7 +12,7 @@ namespace houoole\server\protocol\http;
 use FastRoute\Dispatcher;
 use RuntimeException;
 use houoole\Config;
-use function FastRoute\simpleDispatcher;
+use FastRoute;
 
 class Route
 {
@@ -24,8 +24,11 @@ class Route
 
     private static $cache = [];
 
+    public static $fastRoute;
+
     private function __construct()
     {
+        $this->fastRoute = new FastRoute();
     }
 
     public static function getInstance()
@@ -34,7 +37,7 @@ class Route
             self::$instance = new self();
 
             self::$config = Config::getInstance()->get('routes', []);
-            self::$dispatcher = simpleDispatcher(
+            self::$dispatcher = self::$fastRoute->simpleDispatcher(
                 function (\FastRoute\RouteCollector $routerCollector)
                 {
                     foreach (self::$config as $routerDefine)
