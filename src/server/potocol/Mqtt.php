@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 // +----------------------------------------------------------------------
-// | Houoole [ 厚匠科技 https://www.houjit.com/ ]
+// | Houoole [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006-2024 https://www.houjit.com/hou-swoole All rights reserved.
+// | Copyright (c) 2006-2014 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace houoole\server\protocol;
 use RuntimeException;
-use houoole\exception\protocol\Mqttexception;
+use houoole\exception\protocol\MQTTException;
 use Throwable;
 use TypeError;
 
@@ -23,11 +23,11 @@ use TypeError;
  */
 
 /**
- * Class Mqtt.
+ * Class MQTT.
  *
  * Modified from https://github.com/walkor/mqtt/blob/master/src/Protocols/Mqtt.php
  */
-class Mqtt
+class MQTT
 {
     const CONNECT = 1; // 客户端到服务端 客户端请求连接服务端
 
@@ -178,7 +178,7 @@ class Mqtt
     }
 
     /**
-     * 解析Mqtt数据包.
+     * 解析MQTT数据包.
      *
      * @param string $buffer
      * @return array|string
@@ -299,9 +299,9 @@ class Mqtt
                     return ['cmd' => $cmd];
             }
         } catch (TypeError $e) {
-            throw new Mqttexception($e->getMessage(), $e->getCode());
+            throw new MQTTException($e->getMessage(), $e->getCode());
         } catch (Throwable $e) {
-            throw new Mqttexception($e->getMessage(), $e->getCode());
+            throw new MQTTException($e->getMessage(), $e->getCode());
         }
 
         return $buffer;

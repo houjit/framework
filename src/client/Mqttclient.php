@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 // +----------------------------------------------------------------------
-// | Houoole [ 厚匠科技 https://www.houjit.com/ ]
+// | Houoole [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006-2024 https://www.houjit.com/hou-swoole All rights reserved.
+// | Copyright (c) 2006-2014 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -10,12 +10,12 @@
 // +----------------------------------------------------------------------
 namespace houoole\client;
 
-use houoole\exception\protocol\Mqttexception;
-use houoole\server\protocol\Mqtt;
+use houoole\exception\protocol\MQTTException;
+use houoole\server\protocol\MQTT;
 use Swoole\Coroutine;
 use Swoole\Coroutine\Client;
 
-class Mqttclient
+class MQTTClient
 {
     private $client;
 
@@ -33,7 +33,7 @@ class Mqttclient
     private $msgId = 0;
 
     /**
-     * MqttClient constructor.
+     * MQTTClient constructor.
      *
      * @throws \Exception
      */
@@ -60,8 +60,8 @@ class Mqttclient
     public function connect(bool $clean = true, array $will = [])
     {
         $data = [
-            'cmd' => Mqtt::CONNECT, // 1
-            'protocol_name' => 'Mqtt',
+            'cmd' => MQTT::CONNECT, // 1
+            'protocol_name' => 'MQTT',
             'protocol_level' => 4,
             'clean_session' => $clean ? 0 : 1,
             'client_id' => $this->config['client_id'],
@@ -88,7 +88,7 @@ class Mqttclient
     public function subscribe(array $topics)
     {
         $data = [
-            'cmd' => Mqtt::SUBSCRIBE, // 8
+            'cmd' => MQTT::SUBSCRIBE, // 8
             'message_id' => $this->getMsgId(),
             'topics' => $topics,
         ];
@@ -104,7 +104,7 @@ class Mqttclient
     public function unSubscribe(array $topics)
     {
         $data = [
-            'cmd' => Mqtt::UNSUBSCRIBE, // 10
+            'cmd' => MQTT::UNSUBSCRIBE, // 10
             'message_id' => $this->getMsgId(),
             'topics' => $topics,
         ];
@@ -125,7 +125,7 @@ class Mqttclient
     {
         $response = ($qos > 0) ? true : false;
         return $this->sendBuffer([
-            'cmd' => Mqtt::PUBLISH, // 3
+            'cmd' => MQTT::PUBLISH, // 3
             'message_id' => $this->getMsgId(),
             'topic' => $topic,
             'content' => $content,
@@ -148,10 +148,10 @@ class Mqttclient
             $this->reConnect();
         } elseif ($response === false) {
             if ($this->client->errCode !== SOCKET_ETIMEDOUT) {
-                throw new Mqttexception($this->client->errMsg, $this->client->errCode);
+                throw new MQTTException($this->client->errMsg, $this->client->errCode);
             }
         } elseif (strlen($response) > 0) {
-            return Mqtt::decode($response);
+            return MQTT::decode($response);
         }
 
         return true;
@@ -164,7 +164,7 @@ class Mqttclient
      */
     public function ping()
     {
-        return $this->sendBuffer(['cmd' => Mqtt::PINGREQ]); // 12
+        return $this->sendBuffer(['cmd' => MQTT::PINGREQ]); // 12
     }
 
     /**
@@ -174,7 +174,7 @@ class Mqttclient
      */
     public function close()
     {
-        $this->sendBuffer(['cmd' => Mqtt::DISCONNECT], false); // 14
+        $this->sendBuffer(['cmd' => MQTT::DISCONNECT], false); // 14
         return $this->client->close();
     }
 
@@ -197,14 +197,14 @@ class Mqttclient
      */
     public function sendBuffer($data, $response = true)
     {
-        $buffer = Mqtt::encode($data);
+        $buffer = MQTT::encode($data);
         $this->client->send($buffer);
         if ($response) {
             $response = $this->client->recv();
             if ($this->config['debug'] && strlen($response) > 0) {
-                Mqtt::printStr($response);
+                MQTT::printStr($response);
             }
-            return Mqtt::decode($response);
+            return MQTT::decode($response);
         }
         return true;
     }

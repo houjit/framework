@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 // +----------------------------------------------------------------------
-// | Houoole [ 厚匠科技 https://www.houjit.com/ ]
+// | Houoole [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006-2024 https://www.houjit.com/hou-swoole All rights reserved.
+// | Copyright (c) 2006-2014 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -22,8 +22,7 @@ class App
         $appVersion = self::$version;
         $swooleVersion = SWOOLE_VERSION;
         echo <<<EOL
-
-欢迎使用HouSwoole
+https://www.houjit.com/
 Version: {$appVersion}, Swoole: {$swooleVersion}
 
 EOL;

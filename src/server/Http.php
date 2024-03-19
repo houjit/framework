@@ -1,8 +1,8 @@
 <?php
 // +----------------------------------------------------------------------
-// | Houoole [ 厚匠科技 https://www.houjit.com/ ]
+// | Houoole [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006-2024 https://www.houjit.com/hou-swoole All rights reserved.
+// | Copyright (c) 2006-2014 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -13,7 +13,7 @@ use houoole\App;
 use houoole\Context;
 use houoole\Listener;
 use houoole\Route;
-use houoole\server\protocol\http\Route;
+use houoole\server\protocol\http\HouRoute;
 use Swoole\Http\Server;
 use Swoole\Server as HttpServer;
 
@@ -90,7 +90,7 @@ class Http
 
     public function onSimpleWorkerStart(HttpServer $server, int $workerId)
     {
-        $this->_route = Route::getInstance();
+        $this->_route = HouRoute::getInstance();
         Listener::getInstance()->listen('simpleWorkerStart', $server, $workerId);
     }
 

@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 // +----------------------------------------------------------------------
-// | Houoole [ 厚匠科技 https://www.houjit.com/ ]
+// | Houoole [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006-2024 https://www.houjit.com/hou-swoole All rights reserved.
+// | Copyright (c) 2006-2014 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -12,9 +12,9 @@ namespace houoole\server\protocol\http;
 use FastRoute\Dispatcher;
 use RuntimeException;
 use houoole\Config;
-use FastRoute;
+use function FastRoute\simpleDispatcher;
 
-class Route
+class HouRoute
 {
     private static $instance;
 
@@ -24,11 +24,8 @@ class Route
 
     private static $cache = [];
 
-    public static $fastRoute;
-
     private function __construct()
     {
-        $this->fastRoute = new FastRoute();
     }
 
     public static function getInstance()
@@ -37,7 +34,7 @@ class Route
             self::$instance = new self();
 
             self::$config = Config::getInstance()->get('routes', []);
-            self::$dispatcher = self::$fastRoute->simpleDispatcher(
+            self::$dispatcher = simpleDispatcher(
                 function (\FastRoute\RouteCollector $routerCollector)
                 {
                     foreach (self::$config as $routerDefine)
@@ -110,11 +107,11 @@ class Route
                 return $this->defaultRouter($server, $fd, $uri);
                 break;
             case Dispatcher::METHOD_NOT_ALLOWED:
-                return $server->send($fd, Response::build('', 405));
+                return $server->send($fd, HouResponse::build('', 405));
 //                throw new RuntimeException('Request Method Not Allowed', 405);
                 break;
             default:
-                return $server->send($fd, Response::build('', 400));
+                return $server->send($fd, HouResponse::build('', 400));
         }
         throw new RuntimeException("Undefined Route {$uri}");
     }
@@ -139,7 +136,7 @@ class Route
             }
 //            throw new RuntimeException('The default route index/index class does not exist', 404);
         }
-        return $server->send($fd, Response::build('', 404));
+        return $server->send($fd, HouResponse::build('', 404));
 //        throw new RuntimeException('Route Not Found', 404);
     }
 }

@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 // +----------------------------------------------------------------------
-// | Houoole [ 厚匠科技 https://www.houjit.com/ ]
+// | Houoole [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006-2024 https://www.houjit.com/hou-swoole All rights reserved.
+// | Copyright (c) 2006-2014 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -11,7 +11,7 @@
 namespace houoole\server;
 use houoole\App;
 use houoole\Listener;
-use houoole\server\protocol\Mqtt;
+use houoole\server\protocol\MQTT;
 use Swoole\Server;
 
 class MqttServer
@@ -43,7 +43,7 @@ class MqttServer
 
     public function onStart($server)
     {
-        App::echoSuccess("Swoole Mqtt Server running：mqtt://{$this->_config['ip']}:{$this->_config['port']}");
+        App::echoSuccess("Swoole MQTT Server running：mqtt://{$this->_config['ip']}:{$this->_config['port']}");
         Listener::getInstance()->listen('start', $server);
     }
 
@@ -55,19 +55,19 @@ class MqttServer
     public function onReceive($server, $fd, $fromId, $data)
     {
         try {
-            $data = Mqtt::decode($data);
+            $data = MQTT::decode($data);
             if (is_array($data) && isset($data['cmd'])) {
                 switch ($data['cmd']) {
-                    case Mqtt::PINGREQ: // 心跳请求
-                        [$class, $func] = $this->_config['receiveCallbacks'][Mqtt::PINGREQ];
+                    case MQTT::PINGREQ: // 心跳请求
+                        [$class, $func] = $this->_config['receiveCallbacks'][MQTT::PINGREQ];
                         $obj = new $class();
                         if ($obj->{$func}($server, $fd, $fromId, $data)) {
                             // 返回心跳响应
-                            $server->send($fd, Mqtt::getAck(['cmd' => 13]));
+                            $server->send($fd, MQTT::getAck(['cmd' => 13]));
                         }
                         break;
-                    case Mqtt::DISCONNECT: // 客户端断开连接
-                        [$class, $func] = $this->_config['receiveCallbacks'][Mqtt::DISCONNECT];
+                    case MQTT::DISCONNECT: // 客户端断开连接
+                        [$class, $func] = $this->_config['receiveCallbacks'][MQTT::DISCONNECT];
                         $obj = new $class();
                         if ($obj->{$func}($server, $fd, $fromId, $data)) {
                             if ($server->exist($fd)) {
@@ -75,10 +75,10 @@ class MqttServer
                             }
                         }
                         break;
-                    case Mqtt::CONNECT: // 连接
-                    case Mqtt::PUBLISH: // 发布消息
-                    case Mqtt::SUBSCRIBE: // 订阅
-                    case Mqtt::UNSUBSCRIBE: // 取消订阅
+                    case MQTT::CONNECT: // 连接
+                    case MQTT::PUBLISH: // 发布消息
+                    case MQTT::SUBSCRIBE: // 订阅
+                    case MQTT::UNSUBSCRIBE: // 取消订阅
                         [$class, $func] = $this->_config['receiveCallbacks'][$data['cmd']];
                         $obj = new $class();
                         $obj->{$func}($server, $fd, $fromId, $data);
