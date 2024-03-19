@@ -9,7 +9,6 @@
 // | Author: amos <amos@houjit.com>
 // +----------------------------------------------------------------------
 namespace houoole\exception\protocol;
-
 use Exception;
 
 class MQTTException extends Exception

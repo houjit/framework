@@ -9,7 +9,6 @@
 // | Author: amos <amos@houjit.com>
 // +----------------------------------------------------------------------
 namespace houoole\client;
-
 use houoole\exception\protocol\MQTTException;
 use houoole\server\protocol\MQTT;
 use Swoole\Coroutine;
@@ -18,7 +17,6 @@ use Swoole\Coroutine\Client;
 class MQTTClient
 {
     private $client;
-
     private $config = [
         'host' => '127.0.0.1',
         'port' => 1883,
