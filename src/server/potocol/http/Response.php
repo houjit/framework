@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace houoole\server\protocol\http;
 
-class HouResponse
+class Response
 {
     /**
      * @var string

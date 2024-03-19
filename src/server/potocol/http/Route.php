@@ -14,7 +14,7 @@ use RuntimeException;
 use houoole\Config;
 use function FastRoute\simpleDispatcher;
 
-class HouRoute
+class Route
 {
     private static $instance;
 
@@ -107,11 +107,11 @@ class HouRoute
                 return $this->defaultRouter($server, $fd, $uri);
                 break;
             case Dispatcher::METHOD_NOT_ALLOWED:
-                return $server->send($fd, HouResponse::build('', 405));
+                return $server->send($fd, Response::build('', 405));
 //                throw new RuntimeException('Request Method Not Allowed', 405);
                 break;
             default:
-                return $server->send($fd, HouResponse::build('', 400));
+                return $server->send($fd, Response::build('', 400));
         }
         throw new RuntimeException("Undefined Route {$uri}");
     }
@@ -136,7 +136,7 @@ class HouRoute
             }
 //            throw new RuntimeException('The default route index/index class does not exist', 404);
         }
-        return $server->send($fd, HouResponse::build('', 404));
+        return $server->send($fd, Response::build('', 404));
 //        throw new RuntimeException('Route Not Found', 404);
     }
 }

@@ -13,7 +13,7 @@ use houoole\App;
 use houoole\Context;
 use houoole\Listener;
 use houoole\Route;
-use houoole\server\protocol\http\HouRoute;
+use houoole\server\protocol\http\Route;
 use Swoole\Http\Server;
 use Swoole\Server as HttpServer;
 
@@ -90,7 +90,7 @@ class Http
 
     public function onSimpleWorkerStart(HttpServer $server, int $workerId)
     {
-        $this->_route = HouRoute::getInstance();
+        $this->_route = Route::getInstance();
         Listener::getInstance()->listen('simpleWorkerStart', $server, $workerId);
     }
 
