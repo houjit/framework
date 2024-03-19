@@ -27,7 +27,7 @@
 * [x] WebSocket Server
 * [x] TCP Server
 * [x] UDP Server
-* [x] MQTT Server/Client
+* [x] Mqtt Server/Client
 
 ## 文档
 

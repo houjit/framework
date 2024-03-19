@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace houoole\server\protocol;
 use RuntimeException;
-use houoole\exception\protocol\MQTTException;
+use houoole\exception\protocol\Mqttexception;
 use Throwable;
 use TypeError;
 
@@ -23,11 +23,11 @@ use TypeError;
  */
 
 /**
- * Class MQTT.
+ * Class Mqtt.
  *
  * Modified from https://github.com/walkor/mqtt/blob/master/src/Protocols/Mqtt.php
  */
-class MQTT
+class Mqtt
 {
     const CONNECT = 1; // 客户端到服务端 客户端请求连接服务端
 
@@ -178,7 +178,7 @@ class MQTT
     }
 
     /**
-     * 解析MQTT数据包.
+     * 解析Mqtt数据包.
      *
      * @param string $buffer
      * @return array|string
@@ -299,9 +299,9 @@ class MQTT
                     return ['cmd' => $cmd];
             }
         } catch (TypeError $e) {
-            throw new MQTTException($e->getMessage(), $e->getCode());
+            throw new Mqttexception($e->getMessage(), $e->getCode());
         } catch (Throwable $e) {
-            throw new MQTTException($e->getMessage(), $e->getCode());
+            throw new Mqttexception($e->getMessage(), $e->getCode());
         }
 
         return $buffer;

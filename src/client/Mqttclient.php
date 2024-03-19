@@ -10,12 +10,12 @@
 // +----------------------------------------------------------------------
 namespace houoole\client;
 
-use houoole\exception\protocol\MQTTException;
-use houoole\server\protocol\MQTT;
+use houoole\exception\protocol\Mqttexception;
+use houoole\server\protocol\Mqtt;
 use Swoole\Coroutine;
 use Swoole\Coroutine\Client;
 
-class MQTTClient
+class Mqttclient
 {
     private $client;
 
@@ -33,7 +33,7 @@ class MQTTClient
     private $msgId = 0;
 
     /**
-     * MQTTClient constructor.
+     * MqttClient constructor.
      *
      * @throws \Exception
      */
@@ -60,8 +60,8 @@ class MQTTClient
     public function connect(bool $clean = true, array $will = [])
     {
         $data = [
-            'cmd' => MQTT::CONNECT, // 1
-            'protocol_name' => 'MQTT',
+            'cmd' => Mqtt::CONNECT, // 1
+            'protocol_name' => 'Mqtt',
             'protocol_level' => 4,
             'clean_session' => $clean ? 0 : 1,
             'client_id' => $this->config['client_id'],
@@ -88,7 +88,7 @@ class MQTTClient
     public function subscribe(array $topics)
     {
         $data = [
-            'cmd' => MQTT::SUBSCRIBE, // 8
+            'cmd' => Mqtt::SUBSCRIBE, // 8
             'message_id' => $this->getMsgId(),
             'topics' => $topics,
         ];
@@ -104,7 +104,7 @@ class MQTTClient
     public function unSubscribe(array $topics)
     {
         $data = [
-            'cmd' => MQTT::UNSUBSCRIBE, // 10
+            'cmd' => Mqtt::UNSUBSCRIBE, // 10
             'message_id' => $this->getMsgId(),
             'topics' => $topics,
         ];
@@ -125,7 +125,7 @@ class MQTTClient
     {
         $response = ($qos > 0) ? true : false;
         return $this->sendBuffer([
-            'cmd' => MQTT::PUBLISH, // 3
+            'cmd' => Mqtt::PUBLISH, // 3
             'message_id' => $this->getMsgId(),
             'topic' => $topic,
             'content' => $content,
@@ -148,10 +148,10 @@ class MQTTClient
             $this->reConnect();
         } elseif ($response === false) {
             if ($this->client->errCode !== SOCKET_ETIMEDOUT) {
-                throw new MQTTException($this->client->errMsg, $this->client->errCode);
+                throw new Mqttexception($this->client->errMsg, $this->client->errCode);
             }
         } elseif (strlen($response) > 0) {
-            return MQTT::decode($response);
+            return Mqtt::decode($response);
         }
 
         return true;
@@ -164,7 +164,7 @@ class MQTTClient
      */
     public function ping()
     {
-        return $this->sendBuffer(['cmd' => MQTT::PINGREQ]); // 12
+        return $this->sendBuffer(['cmd' => Mqtt::PINGREQ]); // 12
     }
 
     /**
@@ -174,7 +174,7 @@ class MQTTClient
      */
     public function close()
     {
-        $this->sendBuffer(['cmd' => MQTT::DISCONNECT], false); // 14
+        $this->sendBuffer(['cmd' => Mqtt::DISCONNECT], false); // 14
         return $this->client->close();
     }
 
@@ -197,14 +197,14 @@ class MQTTClient
      */
     public function sendBuffer($data, $response = true)
     {
-        $buffer = MQTT::encode($data);
+        $buffer = Mqtt::encode($data);
         $this->client->send($buffer);
         if ($response) {
             $response = $this->client->recv();
             if ($this->config['debug'] && strlen($response) > 0) {
-                MQTT::printStr($response);
+                Mqtt::printStr($response);
             }
-            return MQTT::decode($response);
+            return Mqtt::decode($response);
         }
         return true;
     }

@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace houoole\server\protocol;
 
-interface MqttInterface
+interface Mqttinterface
 {
     // 1
     public function onMqConnect($server, int $fd, $fromId, $data);

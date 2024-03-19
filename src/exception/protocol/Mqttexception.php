@@ -12,6 +12,6 @@ namespace houoole\exception\protocol;
 
 use Exception;
 
-class MQTTException extends Exception
+class Mqttexception extends Exception
 {
 }
